@@ -2,9 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+	font-family: 'san_francisco';
+	src: url('./assets/fonts/san_francisco.woff2') format('woff2'),
+		url('./assets/fonts/san_francisco.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Seoge Ui';
+	src: url('./assets/fonts/segoeuithibd.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
 @layer base {
 	html {
-		font-family: 'Proxima Nova', system-ui, sans-serif;
+		font-family: 'Seoge Ui', 'san_francisco', 'Proxima Nova', system-ui, sans-serif;
 	}
 }
 
@@ -14,6 +30,7 @@
 }
 
 @media print {
+
 	html,
 	body * {
 		visibility: hidden;

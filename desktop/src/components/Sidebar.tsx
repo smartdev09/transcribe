@@ -15,6 +15,7 @@ export default function Sidebar({
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     //const [userName, setUserName] = useState('Mateen Akram');
     const [userName] = useState('Mateen Akram');
+
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             if (
@@ -31,7 +32,7 @@ export default function Sidebar({
     return (
         <div
             className={clsx(
-                'fixed top-0 left-0 h-full bg-[#121417] text-white z-50 transition-all duration-300',
+                'fixed top-16 left-0 h-full bg-[#121417] text-white z-50 transition-all duration-300',
                 {
                     'w-64': isOpen,
                     'w-0': !isOpen,
@@ -39,14 +40,7 @@ export default function Sidebar({
             )}
             style={{ overflow: isOpen ? 'auto' : 'hidden' }}
         >
-            <div className="absolute top-4 right-4">
-                <button
-                    className="p-2 rounded bg-gray-700 text-white"
-                    onClick={() => setIsOpen(false)}
-                >
-                    <FiX size={24} />
-                </button>
-            </div>
+
 
             {isOpen && (
                 <div className="mt-16 px-5">
@@ -57,6 +51,7 @@ export default function Sidebar({
                     </button>
                 </div>
             )}
+
             {isOpen && settingsVisible && (
                 <SettingsModal visible={settingsVisible} setVisible={setSettingsVisible} />
             )}
@@ -97,6 +92,7 @@ export default function Sidebar({
                     )}
                 </div>
             )}
+
         </div>
     );
 }
