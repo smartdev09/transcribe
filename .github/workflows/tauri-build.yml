@@ -1,16 +1,16 @@
-name: Tauri Build
+name: "Tauri Build"
 
 on:
   push:
     tags:
-      - 'v*.*.*'  # Only builds on version tags like v1.0.0
-  workflow_dispatch:  # Allow manual trigger
+      - 'v*.*.*'
+  workflow_dispatch:
 
 jobs:
   build:
     strategy:
       matrix:
-        platform: [ubuntu-latest, windows-latest]
+        platform: [ubuntu-latest, windows-latest, macos-latest]
 
     runs-on: ${{ matrix.platform }}
 
@@ -26,20 +26,16 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install Tauri CLI
-        run: cargo install tauri-cli
-
-      - name: Install dependencies
+      - name: Install frontend dependencies (includes Tauri CLI)
         working-directory: ./desktop
-        run: cargo install
+        run: npm install
 
       - name: Build with Tauri
         working-directory: ./desktop
-        run: cargo tauri build
+        run: npx tauri build
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.platform }}-tauri-binaries
-          path: |
-            src-tauri/target/release/bundle/
+          path: desktop/src-tauri/target/release/bundle/
