@@ -1,16 +1,16 @@
-name: Tauri Build
+name: "Tauri Build"
 
 on:
   push:
     tags:
-      - 'v*.*.*'  # Only builds on version tags like v1.0.0
-  workflow_dispatch:  # Allow manual trigger
+      - 'v*.*.*'
+  workflow_dispatch:
 
 jobs:
   build:
     strategy:
       matrix:
-        platform: [macos-latest, ubuntu-latest, windows-latest]
+        platform: [ubuntu-latest, windows-latest, macos-latest]
 
     runs-on: ${{ matrix.platform }}
 
@@ -23,21 +23,31 @@ jobs:
         with:
           node-version: 18
 
+      - name: Install Bun
+        run: |
+          curl -fsSL https://bun.sh/install | bash
+          echo "$HOME/.bun/bin" >> $GITHUB_PATH
+        shell: bash
+
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install Tauri CLI
-        run: npm install -g @tauri-apps/cli
+      - name: Install system dependencies (Linux only)
+        if: matrix.platform == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libglib2.0-dev pkg-config build-essential curl
 
-      - name: Install dependencies
+      - name: Install frontend dependencies (includes Tauri CLI)
+        working-directory: ./desktop
         run: npm install
 
       - name: Build with Tauri
+        working-directory: ./desktop
         run: npm run tauri build
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.platform }}-tauri-binaries
-          path: |
-            src-tauri/target/release/bundle/
+          path: desktop/src-tauri/target/release/bundle/

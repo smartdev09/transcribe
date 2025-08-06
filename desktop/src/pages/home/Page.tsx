@@ -15,6 +15,7 @@ import { useEffect } from 'react'
 import { webviewWindow } from '@tauri-apps/api'
 import * as keepAwake from 'tauri-plugin-keepawake-api'
 
+
 export default function Home() {
 	const { t } = useTranslation()
 	const vm = viewModel()
@@ -28,8 +29,7 @@ export default function Home() {
 	}
 
 	useEffect(() => {
-		showWindow();
-		vm.preference.setHomeTabIndex(0);
+		showWindow()
 	}, [])
 	return (
 		<Layout>

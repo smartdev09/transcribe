@@ -4,7 +4,14 @@
 	"version": "3.0.5",
 	"identifier": "github.com.thewh1teagle.vibe",
 	"app": {
-		"windows": [],
+		"windows": [
+			{
+				"title": "Transcribe",
+				"width": 1024,
+				"height": 768,
+				"resizable": true
+			}
+		],
 		"withGlobalTauri": true,
 		"security": {
 			"assetProtocol": {

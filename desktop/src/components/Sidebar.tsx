@@ -50,7 +50,7 @@ export default function Sidebar({
 
             {isOpen && (
                 <div className="mt-16 px-5">
-                    <h2 className="text-lg font-bold mb-6">Vibe</h2>
+                    <h2 className="text-lg font-bold mb-6">Transcribe</h2>
                     <p className="mb-2 flex items-center gap-2"><FiFileText /> Transcripts</p>
                     <button className="text-sm bg-gray-700 px-3 py-1 rounded">
                         Transcript 1
