@@ -41,8 +41,8 @@ jobs:
       - name: Install frontend dependencies (includes Tauri CLI)
         working-directory: ./desktop
         run: |
-              rm -rf node_modules bun.lockb
-              bun install
+            rm -rf node_modules package-lock.json bun.lockb
+            bun install
 
       - name: Build with Tauri
         working-directory: ./desktop
