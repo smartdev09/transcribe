@@ -18,7 +18,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 	return (
 		<div className="flex min-h-screen text-white bg-zinc-900">
 			{/* Sidebar */}
-			<Sidebar isOpen={isSidebarOpen} setIsOpen={setSidebarOpen} />
+			<Sidebar isOpen={isSidebarOpen} setIsOpen={setSidebarOpen} refreshKey={Date.now()} />
 
 			{/* Main Layout */}
 			<div className={`flex flex-col w-full transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'}`}>

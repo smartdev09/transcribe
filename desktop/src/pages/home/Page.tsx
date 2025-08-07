@@ -14,6 +14,7 @@ import AudioDeviceInput from '~/components/AudioDeviceInput'
 import { useEffect } from 'react'
 import { webviewWindow } from '@tauri-apps/api'
 import * as keepAwake from 'tauri-plugin-keepawake-api'
+import { writeTextFile, BaseDirectory } from '@tauri-apps/plugin-fs';
 
 export default function Home() {
 	const { t } = useTranslation()
@@ -30,6 +31,39 @@ export default function Home() {
 	useEffect(() => {
 		showWindow()
 	}, [])
+
+	useEffect(() => {
+		if (vm.progress == 100) {
+			const saveTranscript = async () => {
+				try {
+					const content = (vm.segments?.map(seg => seg.text).join('\n')) ?? '';
+
+					// Generate a dynamic filename with timestamp
+					const now = new Date();
+					const filename = `transcript-${now.getFullYear()}-${(now.getMonth() + 1)
+						.toString().padStart(2, '0')}-${now.getDate()
+							.toString().padStart(2, '0')}-${now.getHours()
+								.toString().padStart(2, '0')}-${now.getMinutes()
+									.toString().padStart(2, '0')}-${now.getSeconds()
+										.toString().padStart(2, '0')}.txt`;
+
+					await writeTextFile(
+						filename,
+						content,
+						{ baseDir: BaseDirectory.Document }
+					);
+
+					console.log(`Transcript saved as ${filename}`);
+				} catch (error) {
+					console.error('Failed to save transcript:', error);
+				}
+			};
+
+			saveTranscript();
+		}
+	}, [vm.progress]);
+
+
 	return (
 		<Layout>
 
@@ -115,6 +149,7 @@ export default function Home() {
 					</>
 				)
 			}
+
 			{/* File */}
 			{
 				vm.preference.homeTabIndex === 1 && (
