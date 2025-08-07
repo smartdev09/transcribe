@@ -15,7 +15,6 @@ import { useEffect } from 'react'
 import { webviewWindow } from '@tauri-apps/api'
 import * as keepAwake from 'tauri-plugin-keepawake-api'
 
-
 export default function Home() {
 	const { t } = useTranslation()
 	const vm = viewModel()

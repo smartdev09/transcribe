@@ -128,7 +128,7 @@ pub fn setup(app: &App) -> Result<(), Box<dyn std::error::Error>> {
             .inner_size(800.0, 700.0)
             .min_inner_size(800.0, 700.0)
             .center()
-            .title("Vibe")
+            .title("Transcribe")
             .resizable(true)
             .focused(true)
             .shadow(true)

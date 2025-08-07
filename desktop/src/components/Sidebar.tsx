@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
-import { FiX, FiFileText, FiUser, FiSettings, FiLogOut } from 'react-icons/fi';
+import { FiFileText, FiUser, FiSettings, FiLogOut } from 'react-icons/fi';
 import SettingsModal from './SettingsModal';
 
 export default function Sidebar({
-    isOpen,
-    setIsOpen,
+    isOpen
 }: {
     isOpen: boolean;
     setIsOpen: (val: boolean) => void;

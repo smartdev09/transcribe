@@ -55,7 +55,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 					</button>
 				</div>
 
-				{/* 🔽 Main Content */}
+				{/* Main Content */}
 				<div className="flex flex-grow pt-16 pb-[80px]">
 					<div className={`transition-all duration-300 px-10 w-full ${isRightSidebarOpen ? 'max-w-[calc(100%-500px)]' : 'w-full'}`}>
 						<Toast />
@@ -68,7 +68,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 						</div>
 					</div>
 
-					{/* 👉 Right Sidebar (not fixed now) */}
+					{/*  Right Sidebar  */}
 					{isRightSidebarOpen && (
 						<div className="w-[500px] p-4 border-l border-zinc-700 bg-zinc-800 max-h-screen overflow-y-auto transition-all duration-300">
 							<ModelOptions
