@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import DropModal from './DropModal';
 import SettingsModal from './SettingsModal';
 import Toast from './Toast';
@@ -18,7 +18,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 	return (
 		<div className="flex min-h-screen text-white bg-zinc-900">
 			{/* Sidebar */}
-			<Sidebar isOpen={isSidebarOpen} setIsOpen={setSidebarOpen} />
+			<Sidebar isOpen={isSidebarOpen} setIsOpen={setSidebarOpen} refreshKey={Date.now()} />
 
 			{/* Main Layout */}
 			<div className={`flex flex-col w-full transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'}`}>

@@ -16,6 +16,7 @@ import ErrorModalWithContext from './components/ErrorModalWithContext'
 import { Toaster } from 'react-hot-toast'
 import { FilesProvider } from './providers/FilesProvider'
 import { ToastProvider } from './providers/Toast'
+import TranscriptPage from './pages/TranscriptView';
 
 export default function App() {
 	const { i18n } = useTranslation()
@@ -38,6 +39,7 @@ export default function App() {
 									<Route path="/" element={<HomePage />} />
 									<Route path="/setup" element={<SetupPage />} />
 									<Route path="/batch" element={<BatchPage />} />
+									<Route path="/transcript/:name" element={<TranscriptPage />} />
 								</Routes>
 							</FilesProvider>
 						</ToastProvider>

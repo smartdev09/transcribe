@@ -2,25 +2,55 @@ import { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { FiFileText, FiUser, FiSettings, FiLogOut } from 'react-icons/fi';
 import SettingsModal from './SettingsModal';
+import { readDir, readTextFile, BaseDirectory } from '@tauri-apps/plugin-fs';
+import { useNavigate } from 'react-router-dom';
 
 export default function Sidebar({
-    isOpen
+    isOpen,
+    setIsOpen,
+    refreshKey,
 }: {
     isOpen: boolean;
     setIsOpen: (val: boolean) => void;
+    refreshKey: number;
 }) {
     const [settingsVisible, setSettingsVisible] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement | null>(null);
-    //const [userName, setUserName] = useState('Mateen Akram');
     const [userName] = useState('Mateen Akram');
+    const [transcripts, setTranscripts] = useState<{ name: string; content: string }[]>([]);
+    const [selectedTranscript, setSelectedTranscript] = useState<string | null>(null);
+    const dropdownRef = useRef<HTMLDivElement | null>(null);
+    const navigate = useNavigate();
+    const loadTranscripts = async () => {
+        try {
+            const files = await readDir('', { baseDir: BaseDirectory.Document });
+            const transcriptFiles = files.filter(file =>
+                file.name?.startsWith('transcript-') && file.name.endsWith('.txt')
+            );
+
+            const loaded = await Promise.all(
+                transcriptFiles.map(async (file) => {
+                    const content = await readTextFile(file.name!, { baseDir: BaseDirectory.Document });
+                    return { name: file.name!, content };
+                })
+            );
+
+            loaded.sort((a, b) => b.name.localeCompare(a.name));
+            setTranscripts(loaded);
+        } catch (err) {
+            console.error('Failed to load transcripts:', err);
+        }
+    };
+
+    useEffect(() => {
+        if (isOpen) {
+            loadTranscripts();
+        }
+    }, [isOpen, refreshKey]);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
-            if (
-                dropdownRef.current &&
-                !dropdownRef.current.contains(event.target as Node)
-            ) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setShowDropdown(false);
             }
         }
@@ -28,26 +58,44 @@ export default function Sidebar({
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+    const selectedContent = transcripts.find(t => t.name === selectedTranscript)?.content;
+
     return (
         <div
             className={clsx(
                 'fixed top-16 left-0 h-full bg-[#121417] text-white z-50 transition-all duration-300',
-                {
-                    'w-64': isOpen,
-                    'w-0': !isOpen,
-                }
+                { 'w-64': isOpen, 'w-0': !isOpen }
             )}
             style={{ overflow: isOpen ? 'auto' : 'hidden' }}
         >
-
-
             {isOpen && (
                 <div className="mt-16 px-5">
                     <h2 className="text-lg font-bold mb-6">Transcribe</h2>
                     <p className="mb-2 flex items-center gap-2"><FiFileText /> Transcripts</p>
-                    <button className="text-sm bg-gray-700 px-3 py-1 rounded">
-                        Transcript 1
-                    </button>
+
+                    {transcripts.map((t, i) => (
+                        <button
+                            key={i}
+                            onClick={() => navigate(`/transcript/${encodeURIComponent(t.name.replace('.txt', ''))}`, {
+                                state: { name: t.name, content: t.content },
+                            })}
+                            className="text-sm px-3 py-1 rounded block w-full mb-2 text-left truncate bg-gray-700 hover:bg-purple-700 transition"
+                            title={t.name}
+                        >
+                            {t.name.replace('.txt', '')}
+                        </button>
+                    ))}
+
+
+                    {transcripts.length === 0 && (
+                        <p className="text-xs text-gray-400 mt-2">No transcripts found.</p>
+                    )}
+
+                    {selectedTranscript && (
+                        <div className="mt-4 p-2 bg-zinc-800 rounded text-xs max-h-60 overflow-y-auto border border-gray-600">
+                            {selectedContent}
+                        </div>
+                    )}
                 </div>
             )}
 
@@ -78,7 +126,8 @@ export default function Sidebar({
                                 <li className="flex items-center gap-2 px-4 py-2 hover:bg-gray-600 cursor-pointer">
                                     <FiUser /> Profile
                                 </li>
-                                <li className="flex items-center gap-2 px-4 py-2 hover:bg-gray-600 cursor-pointer"
+                                <li
+                                    className="flex items-center gap-2 px-4 py-2 hover:bg-gray-600 cursor-pointer"
                                     onClick={() => setSettingsVisible(true)}
                                 >
                                     <FiSettings /> Settings
@@ -91,7 +140,6 @@ export default function Sidebar({
                     )}
                 </div>
             )}
-
         </div>
     );
 }
