@@ -56,9 +56,9 @@
 	},
 	"plugins": {
 		"updater": {
-			"pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEZFNTJENkIxNTM4NTQxODgKUldTSVFZVlRzZFpTL21VWTBzak1IMTA1ZjdNVHA0MXQ3Y20wa2F2U24zVGl6WUUvTGVoQi8wN1kK",
+			"pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEEyODcxRTY1MjU0MkFBRjMKUldUenFrSWxaUjZIb28zalpNaVVZV0tra1NzVm9BWUJGeWo4VkxQUlV5aDhOemhncEg5TGk0LzIK",
 			"endpoints": [
-				"https://github.com/thewh1teagle/vibe/releases/latest/download/latest.json"
+				"https://github.com/smartdev09/transcribe/releases/latest/download/latest.json"
 			]
 		},
 		"deep-link": {
