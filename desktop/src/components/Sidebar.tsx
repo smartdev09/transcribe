@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Sidebar({
     isOpen,
-    setIsOpen,
     refreshKey,
 }: {
     isOpen: boolean;
@@ -18,7 +17,8 @@ export default function Sidebar({
     const [showDropdown, setShowDropdown] = useState(false);
     const [userName] = useState('Mateen Akram');
     const [transcripts, setTranscripts] = useState<{ name: string; content: string }[]>([]);
-    const [selectedTranscript, setSelectedTranscript] = useState<string | null>(null);
+    //const [selectedTranscript, setSelectedTranscript] = useState<string | null>(null);
+    const [selectedTranscript] = useState<string | null>(null);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     const navigate = useNavigate();
     const loadTranscripts = async () => {

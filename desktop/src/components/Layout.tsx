@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import DropModal from './DropModal';
 import SettingsModal from './SettingsModal';
 import Toast from './Toast';
